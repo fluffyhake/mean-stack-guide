@@ -1,0 +1,6 @@
+use postsdb
+db.posts.find()
+
+
+db.auth("username", "password")
+

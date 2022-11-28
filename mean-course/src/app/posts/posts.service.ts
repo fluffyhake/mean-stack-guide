@@ -2,10 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Post } from "./post.model";
 import { Subject } from "rxjs";
+import { Router } from "@angular/router";
+
 
 // Importing an operator to remap array
 import { map } from "rxjs/operators";
 import { identifierName } from "@angular/compiler";
+
 
 
 @Injectable({providedIn: 'root'})
@@ -14,7 +17,7 @@ export class PostsService {
   private postsUpdated = new Subject<Post[]>();
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getPosts() {
     this.http
@@ -55,6 +58,7 @@ export class PostsService {
         post.id = id;
         this.posts.push(post);
         this.postsUpdated.next([...this.posts]);
+        this.router.navigate(["/"])
       })
   }
   updatePost(id: string, title: string, content: string){
@@ -66,6 +70,7 @@ export class PostsService {
         updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts])
+        this.router.navigate(["/"])
       })
   }
   deletePost(postId: string){

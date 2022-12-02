@@ -56,12 +56,30 @@ router.post("", multer({storage: storage}).single("image"), (req,res, next) => {
 
 // First paramater spcifies the uri
 router.get('', (req, res, next) => {
+  // Retrieve query from uri
+  console.log(req.query)
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
+  let fetchedPosts;
+
+  if (pageSize && currentPage){
+    postQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
+
   // https://mongoosejs.com/docs/queries.html
-  Post.find()
+  postQuery
     .then(documents => {
-      res.status(200).json({
-        message: 'Posts fetched successfully!',
-        posts: documents
+      fetchedPosts = documents;
+      return Post.count();
+      })
+      .then(count => {
+        res.status(200).json({
+          message: 'Posts fetched successfully!',
+          posts: fetchedPosts,
+          maxPosts: count
       });
 
 
@@ -91,6 +109,7 @@ router.put("/:id", multer({storage: storage}).single("image"), (req, res, next) 
 });
 
 router.get("/:id", (req, res, next) => {
+
   Post.findById(req.params.id).then(post => {
     if (post) {
       res.status(200).json(post);
@@ -102,6 +121,7 @@ router.get("/:id", (req, res, next) => {
 
 // ALLOW Paths with ID-s after posts when deleting:
 router.delete("/:id", (req, res, next) =>{
+
   console.log(req.params.id);
   Post.deleteOne({_id: req.params.id}).then(result => {
     console.log(result);

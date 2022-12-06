@@ -16,15 +16,18 @@ import { PostCreateComponent } from "./posts/post-create/post-create.component";
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './auth/login/login.component';
 
 
 
 @NgModule({
   declarations: [
+    // Add new modules/components here:
     AppComponent,
     PostCreateComponent,
     HeaderComponent,
-    PostListComponent
+    PostListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

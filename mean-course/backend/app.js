@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 
 const postsRoutes = require("./routes/posts");
+const userRoutes = require("./routes/user")
 
 
 // Use big letter first to indicate that this is an object based on a blueprint
@@ -44,6 +45,9 @@ app.use((req, res, next) => {
 // only paths starting with /api/posts will be forwarded to posts Routes
 app.use("/api/posts", postsRoutes)
 
+
+// Forward to user signup
+app.use("/api/user", userRoutes)
 
 
 module.exports = app;

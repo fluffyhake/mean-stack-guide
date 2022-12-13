@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
 });
 
 
-// You can add plugins to schemas
+// You can add plugins to schemas. I looks at the unique field in email above
 userSchema.plugin(uniqueValidator);
 
 

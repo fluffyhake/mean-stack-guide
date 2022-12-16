@@ -14,6 +14,7 @@ export class SignupComponent{
 
   onSignup(form: NgForm) {
     if (form.invalid) {
+      console.log("invalid form")
       return;
     }
     console.log(form)

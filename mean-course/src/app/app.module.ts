@@ -2,8 +2,7 @@
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
+
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
@@ -11,6 +10,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { PostsModule } from './posts/posts.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -18,14 +18,14 @@ import { PostsModule } from './posts/posts.module';
     // Add new modules/components here:
     AppComponent,
     HeaderComponent,
-    LoginComponent,
-    SignupComponent,
+
     ErrorComponent
   ],
   imports: [
     AppRoutingModule,
     AngularMaterialModule,
-    PostsModule
+    PostsModule,
+    AuthModule
   ],
   // Add an additional HTTP interceptor:
   providers: [

@@ -6,6 +6,7 @@ import { NgModule } from "@angular/core";
 import { AngularMaterialModule } from '../angular-material.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthRoutingModule } from './auth.routing.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     AngularMaterialModule,
-    FormsModule
+    FormsModule,
+    AuthRoutingModule
 
   ]
 })

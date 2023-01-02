@@ -1,8 +1,10 @@
 import { NgFor } from "@angular/common";
-import { Component, OnInit} from "@angular/core";
+import { Component, OnDestroy, OnInit} from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { ParamMap } from "@angular/router";
+import { Subscription } from "rxjs";
+import { AuthService } from "src/app/auth/auth.service";
 import { Post } from "../post.model";
 
 import { PostsService } from "../posts.service";
@@ -15,7 +17,7 @@ import { mimeType } from "./mime-type.validator"
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css']
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
   enteredTitle ='';
   enteredContent = '';
  // Used in the html:
@@ -23,14 +25,20 @@ export class PostCreateComponent implements OnInit {
   isLoading = false;
   private mode = 'create';
   private postId: string;
+  private authStatusSub: Subscription
   // Create form and store it in a property. Top level object, groups all the controls of the form.
   form: FormGroup;
   imagePreview: string;
 
 
-  constructor(public postService: PostsService, public route: ActivatedRoute) {}
+  constructor(public postService: PostsService, public route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(){
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false
+      }
+    )
     // Describing the form
     this.form = new FormGroup({
       // Form control is another constructor that is imported.
@@ -130,5 +138,9 @@ export class PostCreateComponent implements OnInit {
         )
     }
     this.form.reset();
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe()
   }
 }

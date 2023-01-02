@@ -60,6 +60,11 @@ router.post(
   console.log(post);
 
   })
+  .catch(error => {
+    res.status(500).json({
+      message: "Creating a post failed!"
+    })
+  })
 });
 
 
@@ -89,13 +94,15 @@ router.get('', (req, res, next) => {
           message: 'Posts fetched successfully!',
           posts: fetchedPosts,
           maxPosts: count
-      });
+      })
 
-
-
-    });
-  // Responds with 200 OK
-
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: "Fetching posts failed!"
+        });
+    })
+;
 });
 
 router.put("/:id",
@@ -125,6 +132,11 @@ router.put("/:id",
     }
 
   })
+  .catch(error => {
+    res.status(500).json({
+      message: "Couldn't update post!"
+    })
+  })
 });
 
 router.get("/:id", (req, res, next) => {
@@ -135,6 +147,11 @@ router.get("/:id", (req, res, next) => {
     }else {
       res.status(404).json({message: "Post not found!"});
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: "Fetching post failed!"
+    })
   });
 })
 
@@ -150,6 +167,11 @@ router.delete("/:id", checkAuth, (req, res, next) =>{
     } else {
       res.status(401).json({ message : "Unauthorized!"})
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: "Fetching posts failed!"
+    })
   })
 });
 

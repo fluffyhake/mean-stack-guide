@@ -112,12 +112,18 @@ router.put("/:id",
     _id: req.body.id,
     title: req.body.title,
     content: req.body.content,
-    imagePath: imagePath
+    imagePath: imagePath,
+    creator: req.userData.userId
   });
   console.log(post);
-  Post.updateOne({_id: req.params.id}, post).then(result =>{
+  Post.updateOne({_id: req.params.id, creator: req.userData.userId}, post).then(result =>{
     console.log(result)
-    res.status(200).json({ message : "Update sucsessful!"})
+    if (result.modifiedCount > 0) {
+      res.status(200).json({ message : "Update sucsessful!"})
+    } else {
+      res.status(401).json({ message : "Unauthorized!"})
+    }
+
   })
 });
 
@@ -136,10 +142,14 @@ router.get("/:id", (req, res, next) => {
 router.delete("/:id", checkAuth, (req, res, next) =>{
 
   console.log(req.params.id);
-  Post.deleteOne({_id: req.params.id}).then(result => {
+  Post.deleteOne({_id: req.params.id, creator: req.userData.userId}).then(result => {
+    console.log("Logging the result: ")
     console.log(result);
-    res.status(200).json({ message: "Post deleted!" });
-
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message : "Delete sucsessful!"})
+    } else {
+      res.status(401).json({ message : "Unauthorized!"})
+    }
   })
 });
 

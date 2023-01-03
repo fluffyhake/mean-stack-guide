@@ -13,7 +13,7 @@ const userRoutes = require("./routes/user")
 
 const app = express();
 
-mongoose.connect("mongodb://postsdbapp:iDcCQndWwPPh@localhost:27017/postsdb?retryWrites=true")
+mongoose.connect("mongodb://postsdbapp:" + process.env.MONGO_PWD + "@localhost:27017/postsdb?retryWrites=true")
   .then(() => {
     console.log('Connected to database!')
 
